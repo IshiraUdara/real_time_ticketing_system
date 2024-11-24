@@ -10,8 +10,9 @@ public class Real_Time_Ticketing_System {
     private static int maxTicketCapacity = 0;
 
     // Initial value assignment
-    public Real_Time_Ticketing_System(){
+    public Real_Time_Ticketing_System() throws InterruptedException{
         System.out.println(inputFromUser());
+        selling_process();
     }
     public void setTotalTickets (int ticket_count)
     {
@@ -93,6 +94,14 @@ public class Real_Time_Ticketing_System {
             System.out.println(Input_Validation.ticketCapacity_Validate());
         }
         return "\nUser input function called...";
+    }
+
+    public void selling_process() throws InterruptedException{
+        System.out.println("Testing timer delay");
+        for (int x = 0 ; x <= 10; x++){
+            System.out.println("Counting time "+ x);
+            Thread.sleep(1000);
+        }
     }
 
 }

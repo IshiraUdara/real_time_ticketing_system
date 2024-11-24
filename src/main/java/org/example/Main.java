@@ -1,7 +1,7 @@
 package org.example;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
 
         System.out.println("Hello world!");
         Real_Time_Ticketing_System s1 = new Real_Time_Ticketing_System();
