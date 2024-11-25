@@ -13,6 +13,10 @@ public class Real_Time_Ticketing_System {
     public Real_Time_Ticketing_System() throws InterruptedException{
         System.out.println(inputFromUser());
         selling_process();
+        Customer c1 = new Customer();
+    }
+    public Real_Time_Ticketing_System(String constructor_overload){
+
     }
     public void setTotalTickets (int ticket_count)
     {
@@ -30,17 +34,17 @@ public class Real_Time_Ticketing_System {
     {
         maxTicketCapacity = ticketCapacity;
     }
-    public String getTotalTickets ()
+    public Integer getTotalTickets ()
     {
-        return "Total ticket count is: "+ totalTickets;
+        return totalTickets;
     }
-    public String getTicketReleaseRate ()
+    public Float getTicketReleaseRate ()
     {
-        return "Ticket release rate is: "+ ticketReleaseRate;
+        return ticketReleaseRate;
     }
-    public String getCustomerRetrievalRate ()
+    public Float getCustomerRetrievalRate ()
     {
-        return "Customer retrieval rate is: "+ customerRetrievalRate;
+        return customerRetrievalRate;
     }
     public String getMaxTicketCapacity ()
     {
