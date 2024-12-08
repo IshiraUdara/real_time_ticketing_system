@@ -1,19 +1,45 @@
-package org.example;
+package org.ticketing_system_package;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectOutputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Real_Time_Ticketing_System {
     private static int totalTickets = 0;
-    private static float ticketReleaseRate = 0.0f;
-    private static float customerRetrievalRate = 0.0f;
+    private static int ticketReleaseRate = 0;
+    private static int customerRetrievalRate = 0;
     private static int maxTicketCapacity = 0;
 
     // Initial value assignment
-    public Real_Time_Ticketing_System() throws InterruptedException{
+    public Real_Time_Ticketing_System() throws Exception{
         System.out.println(inputFromUser());
         selling_process();
         Customer c1 = new Customer();
+
+        try {
+            // serializable object calls which saving these user entered data (configuration data)
+            configuration_system config_sys = new configuration_system();
+
+            // creating a file to save that data
+            File configuration_data_file = new File("configuration_data_file.txt");
+
+            // Saving the data in byte format
+            FileOutputStream configuration_data = new FileOutputStream(configuration_data_file,true);
+
+            // serialization object
+            ObjectOutputStream configuration_data_object = new ObjectOutputStream(configuration_data);
+
+            // data serializing the data
+            configuration_data_object.writeObject(config_sys);
+
+            configuration_data.close();
+        }
+        catch (FileNotFoundException e1){
+            System.out.println("File not found.......");
+        }
     }
     public Real_Time_Ticketing_System(String constructor_overload){
 
@@ -22,11 +48,11 @@ public class Real_Time_Ticketing_System {
     {
         totalTickets = ticket_count;
     }
-    public void setTicketReleaseRate (float releaseRate)
+    public void setTicketReleaseRate (int releaseRate)
     {
         ticketReleaseRate = releaseRate;
     }
-    public void setCustomerRetrievalRate (float retrievalRate)
+    public void setCustomerRetrievalRate (int retrievalRate)
     {
         customerRetrievalRate = retrievalRate;
     }
@@ -38,17 +64,17 @@ public class Real_Time_Ticketing_System {
     {
         return totalTickets;
     }
-    public Float getTicketReleaseRate ()
+    public Integer getTicketReleaseRate ()
     {
         return ticketReleaseRate;
     }
-    public Float getCustomerRetrievalRate ()
+    public Integer getCustomerRetrievalRate ()
     {
         return customerRetrievalRate;
     }
-    public String getMaxTicketCapacity ()
+    public Integer getMaxTicketCapacity ()
     {
-        return "Max ticket capacity is: "+ maxTicketCapacity;
+        return maxTicketCapacity;
     }
 
     public String inputFromUser()
@@ -74,8 +100,8 @@ public class Real_Time_Ticketing_System {
 
         try {
             Scanner scanner_variable_releaseRate = new Scanner(System.in);
-            System.out.print("\nEnter ticket release rate as a float value: ");
-            ticketReleaseRate = scanner_variable_releaseRate.nextFloat();
+            System.out.print("\nEnter ticket release rate (per second): ");
+            ticketReleaseRate = scanner_variable_releaseRate.nextInt();
         }
         catch (InputMismatchException e2){
             System.out.println(Input_Validation.releaseRate_Validate());
@@ -83,8 +109,8 @@ public class Real_Time_Ticketing_System {
 
         try {
             Scanner scanner_variable_retrievalRate = new Scanner(System.in);
-            System.out.print("\nEnter customer release rate as a float value: ");
-            customerRetrievalRate = scanner_variable_retrievalRate.nextFloat();
+            System.out.print("\nEnter customer release rate (per second): ");
+            customerRetrievalRate = scanner_variable_retrievalRate.nextInt();
         }
         catch (InputMismatchException e3){
             System.out.println(Input_Validation.retrievalRate_Validate());

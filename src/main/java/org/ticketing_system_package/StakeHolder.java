@@ -1,4 +1,4 @@
-package org.example;
+package org.ticketing_system_package;
 
 public class StakeHolder {
     private static float ticket_release_rate = 0;
