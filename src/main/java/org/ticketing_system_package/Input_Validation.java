@@ -1,4 +1,4 @@
-package org.example;
+package org.ticketing_system_package;
 
 public class Input_Validation extends Exception{
     @Override

@@ -1,4 +1,4 @@
-package org.example;
+package org.ticketing_system_package;
 
 public class Vendor extends StakeHolder {
 
@@ -7,5 +7,7 @@ public class Vendor extends StakeHolder {
 
     }
 
-
+    public static int getVendor_total_tickets() {
+        return vendor_total_tickets;
+    }
 }

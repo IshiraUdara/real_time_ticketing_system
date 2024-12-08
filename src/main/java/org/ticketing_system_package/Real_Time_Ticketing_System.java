@@ -1,4 +1,4 @@
-package org.example;
+package org.ticketing_system_package;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
