@@ -1,4 +1,4 @@
-package org.ticketing_system_package;
+package org.example;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -9,7 +9,6 @@ public class Main {
         s1.setMaxTicketCapacity(1000);
         s1.setCustomerRetrievalRate(45.5f);
         s1.setTicketReleaseRate(67.5f);
-
 //        System.out.println( s1.getTotalTickets());
 //        System.out.println( s1.getMaxTicketCapacity());
 //        System.out.println( s1.getCustomerRetrievalRate());
