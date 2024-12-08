@@ -1,11 +1,16 @@
 package org.ticketing_system_package;
 
-public class StakeHolder {
+public class StakeHolder implements Runnable {
     private static float ticket_release_rate = 0;
     private static float customer_retrieval_rate = 0;
     private static int total_tickets = 0;
 
-    public StakeHolder() throws InterruptedException{
+    @Override
+    public void run() {
+        System.out.println("Now inside the run method in stakeholder class");
+    }
+
+    public StakeHolder(){
         Real_Time_Ticketing_System ticketing_system = new Real_Time_Ticketing_System("initial");
         this.ticket_release_rate = ticketing_system.getTicketReleaseRate();
         this.customer_retrieval_rate = ticketing_system.getCustomerRetrievalRate();
@@ -13,4 +18,5 @@ public class StakeHolder {
 
         System.out.println("Subclass system is working... (Now in the parent class)");
     }
+
 }

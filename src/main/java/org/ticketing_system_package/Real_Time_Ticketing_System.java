@@ -18,6 +18,12 @@ public class Real_Time_Ticketing_System {
         System.out.println(inputFromUser());
         selling_process();
         Customer c1 = new Customer();
+        Vendor v1 = new Vendor();
+        Thread thread_1_customer = new Thread(c1);
+        Thread thread_2_vendor = new Thread(v1);
+
+        thread_2_vendor.start();
+        thread_1_customer.start();
 
         try {
             // serializable object calls which saving these user entered data (configuration data)
@@ -32,7 +38,7 @@ public class Real_Time_Ticketing_System {
             // serialization object
             ObjectOutputStream configuration_data_object = new ObjectOutputStream(configuration_data);
 
-            // data serializing the data
+            // serializing the data
             configuration_data_object.writeObject(config_sys);
 
             configuration_data.close();
