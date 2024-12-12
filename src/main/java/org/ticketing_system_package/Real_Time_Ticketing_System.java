@@ -12,19 +12,42 @@ public class Real_Time_Ticketing_System {
     private static int ticketReleaseRate = 0;
     private static int customerRetrievalRate = 0;
     private static int maxTicketCapacity = 0;
-
+    boolean suspended;
+    boolean stopped;
+    TicketPool ticketPool = new TicketPool("overloaded constructor called");
+    int current_ticket_count = 0;
     // Initial value assignment
     public Real_Time_Ticketing_System() throws Exception{
+
+        suspended = false;
+        stopped = false;
+
         System.out.println(inputFromUser());
-        selling_process();
-        Customer c1 = new Customer();
-        Vendor v1 = new Vendor();
-        Thread thread_1_customer = new Thread(c1);
-        Thread thread_2_vendor = new Thread(v1);
+        Thread main_customer_thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    selling_process();
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        Thread main_vendor_thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    ticket_adding_process();
+                }
+                catch (InterruptedException e){
+                    e.printStackTrace();
+                }
 
-        thread_2_vendor.start();
-        thread_1_customer.start();
-
+            }
+        });
+        main_vendor_thread.start();
+        main_customer_thread.start();
         try {
             // serializable object calls which saving these user entered data (configuration data)
             configuration_system config_sys = new configuration_system();
@@ -115,7 +138,7 @@ public class Real_Time_Ticketing_System {
 
         try {
             Scanner scanner_variable_retrievalRate = new Scanner(System.in);
-            System.out.print("\nEnter customer release rate (per second): ");
+            System.out.print("\nEnter customer retrieval rate (per second): ");
             customerRetrievalRate = scanner_variable_retrievalRate.nextInt();
         }
         catch (InputMismatchException e3){
@@ -132,12 +155,48 @@ public class Real_Time_Ticketing_System {
         return "\nUser input function called...";
     }
 
-    public void selling_process() throws InterruptedException{
-        System.out.println("Testing timer delay");
-        for (int x = 0 ; x <= 10; x++){
-            System.out.println("Counting time "+ x);
+    synchronized public void selling_process() throws InterruptedException{
+
+        while (current_ticket_count < totalTickets) {
+
+            for (int count = 0; count < customerRetrievalRate; count++) {
+                Customer customer_object = new Customer(ticketPool);
+                Thread thread_customer = new Thread(customer_object);
+                thread_customer.start();
+                suspended = true;
+            }
+            if (ticketPool.get_ticketPool_for_booking().isEmpty()) {
+                break;
+            }
+            current_ticket_count -= customerRetrievalRate;
+            Thread.sleep(1000);
+            while (suspended) {
+                wait();
+            }
+            suspended = true;
+            notifyAll();
+
+        }
+
+
+
+    }
+    public synchronized void ticket_adding_process() throws InterruptedException{
+        while (current_ticket_count < totalTickets) {
+            for (int i = 1; i <= 5; i++) {
+                Vendor vendor_object = new Vendor();
+                Thread thread_vendor = new Thread(vendor_object);
+                thread_vendor.start();
+                suspended = false;
+            }
+            current_ticket_count += customerRetrievalRate;
             Thread.sleep(1000);
         }
+        while (!suspended) {
+            wait();
+        }
+        suspended = false;
+        notifyAll();
     }
 
 }

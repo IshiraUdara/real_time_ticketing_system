@@ -1,20 +1,23 @@
 package org.ticketing_system_package;
 
-public class Vendor extends StakeHolder {
+import java.io.Serializable;
+
+public class Vendor extends StakeHolder implements Serializable {
 
     private static int vendor_total_tickets = 0;
     private TicketPool tickets = new TicketPool();
+    Real_Time_Ticketing_System ticketing_system = new Real_Time_Ticketing_System("overloaded constructor called");
     public Vendor (){
-        System.out.println("Subclass system is working... (Now in the Vendor child class)");
 
     }
 
     @Override
-    public void run() {
+    public void run(){
         super.run();
-        System.out.println("Now in the Run function in vendor child class");
-        for (int i = 0; i < 5; i++){
-            tickets.addTickets();
+
+        if (vendor_total_tickets != ticketing_system.getTotalTickets()){
+            vendor_total_tickets += 1;
+            tickets.addTickets(Thread.currentThread().getId());
         }
     }
 }

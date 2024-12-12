@@ -7,7 +7,7 @@ public class StakeHolder implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("Now inside the run method in stakeholder class");
+
     }
 
     public StakeHolder(){
@@ -16,7 +16,6 @@ public class StakeHolder implements Runnable {
         this.customer_retrieval_rate = ticketing_system.getCustomerRetrievalRate();
         this.total_tickets = ticketing_system.getTotalTickets();
 
-        System.out.println("Subclass system is working... (Now in the parent class)");
     }
 
 }
